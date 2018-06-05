@@ -1,76 +1,80 @@
-function Queue(asStack){
+function Queue(asStack) {
     Object.defineProperties(
         this,
         {
-            add:{
-                enumerable:true,
-                writable:false,
-                value:addToQueue
+            add: {
+                enumerable: true,
+                writable: false,
+                value: addToQueue
             },
-            next:{
-                enumerable:true,
-                writable:false,
-                value:run
+            next: {
+                enumerable: true,
+                writable: false,
+                value: run
             },
-            clear:{
-                enumerable:true,
-                writable:false,
-                value:clearQueue
+            clear: {
+                enumerable: true,
+                writable: false,
+                value: clearQueue
             },
-            contents:{
-                enumerable:false,
-                get:getQueue,
-                set:setQueue
+            contents: {
+                enumerable: false,
+                get: getQueue,
+                set: setQueue
             },
-            autoRun:{
-                enumerable:true,
-                writable:true,
-                value:true
+            autoRun: {
+                enumerable: true,
+                writable: true,
+                value: true
             },
-            stop:{
-                enumerable:true,
-                writable:true,
-                value:false
+            stop: {
+                enumerable: true,
+                writable: true,
+                value: false
             }
         }
     );
 
-    var queue=[];
-    var running=false;
-    var stop=false;
+    var queue = [];
+    var stop = false;
+    var autoStop = false;
 
-    function clearQueue(){
-        queue=[];
+    function clearQueue() {
+        queue = [];
         return queue;
     }
 
-    function getQueue(){
+    function getQueue() {
         return queue;
     }
 
-    function setQueue(val){
-        queue=val;
+    function setQueue(val) {
+        queue = val;
         return queue;
     }
 
-    function addToQueue(){
-        for(var i in arguments){
+    function addToQueue() {
+        for (var i in arguments) {
             queue.push(arguments[i]);
         }
-        if(!running && !this.stop && this.autoRun){
+        if (!this.stop && this.autoRun) {
             this.next();
         }
     }
 
-    function run(){
-        running=true;
-        if(queue.length<1 || this.stop){
-            running=false;
+    function run() {
+        if (this.stop) {
             return;
         }
 
-        queue.shift().bind(this)();
+        if (queue.length === 1 || this.autoStop) {
+            stop = true;
+        }
+
+        if (queue.length) {
+            queue.shift().bind(this)();
+        }
     }
 }
 
-module.exports=Queue;
+module.exports = Queue;

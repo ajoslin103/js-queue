@@ -43,6 +43,7 @@ This work is licenced via the [DBAD Public Licence](http://www.dbad-license.org/
 |contents|Array|  |  | Queue instance contents |
 |autoRun|Bool|  | true |should autoRun queue when new item added|
 |stop|Bool|  | false |setting this to true will forcibly prevent the queue from executing|
+|autoStop|Bool|  | false |should set stop = true when the queue becomes empty|
 
 ### Basic queue use in node, react, browserify, webpack or any other commonjs implementation
 
